@@ -26,11 +26,21 @@ class LoginCubit extends Cubit<bool> {
     });
 
     if (response is Response) {
+      StorageManager storage = StorageManager();
       final decodedResponse = JsonDecoder().responseToMap(response);
       if (decodedResponse.containsKey('auth_token')) {
+        if (response.headers.containsKey('set-cookie')) {
+          var rawCookies = response.headers['set-cookie'];
+          if (rawCookies != null) {
+            String cleanedCookies = rawCookies
+                .replaceAll(' Path=/; HttpOnly,', '')
+                .replaceAll(' Path=/,', '')
+                .replaceAll(' Path=/', '');
+            await storage.setCookie(cleanedCookies);
+          }
+        }
         final LoginData loginData = LoginData.fromJson(decodedResponse);
-        StorageManager storage = StorageManager();
-        await storage.setToken(loginData.sid);
+        await storage.setSid(loginData.sid);
         await storage.setToken(loginData.authToken);
         await getPersonType();
         await getPersonId().whenComplete(

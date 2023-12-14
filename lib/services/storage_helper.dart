@@ -11,6 +11,14 @@ class StorageManager {
     return storage.read(key: 'id');
   }
 
+  Future<String?> getSid() async {
+    return storage.read(key: 'sid');
+  }
+
+  Future<String?> getCookies() async {
+    return storage.read(key: 'cookie');
+  }
+
   Future<void> setToken(String token) async {
     await storage.write(key: 'token', value: token);
   }
@@ -27,12 +35,15 @@ class StorageManager {
     await storage.write(key: 'sid', value: sid);
   }
 
+  Future<void> setCookie(String cookie) async {
+    await storage.write(key: 'cookie', value: cookie);
+  }
+
   Future<void> deleteTokens() async {
     await storage.delete(key: 'token');
-    await storage.delete(key: 'id');
-    await storage.delete(key: 'name');
-    await storage.delete(key: 'email');
-    await storage.delete(key: 'password');
-    await storage.delete(key: 'filial');
+    await storage.delete(key: 'personType');
+    await storage.delete(key: 'personId');
+    await storage.delete(key: 'sid');
+    await storage.delete(key: 'cookie');
   }
 }

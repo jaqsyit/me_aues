@@ -6,6 +6,8 @@ import '../constants/urls.dart';
 import 'storage_helper.dart';
 
 class ApiClient {
+  String sid = '';
+  String cookies = '';
   ApiClient();
   Future<http.Response> get(
     String url, {
@@ -16,6 +18,8 @@ class ApiClient {
     String? accessToken;
     if (withToken) {
       accessToken = await storage.getAccessToken();
+      sid = (await storage.getSid())!;
+      cookies = (await storage.getCookies())!;
     }
     try {
       final response = await http.get(
@@ -40,6 +44,8 @@ class ApiClient {
     String? accessToken;
     if (withToken) {
       accessToken = await storage.getAccessToken();
+      sid = (await storage.getSid())!;
+      cookies = (await storage.getCookies())!;
     }
     try {
       String bodyString =
@@ -65,10 +71,11 @@ class ApiClient {
   }) async {
     final storage = StorageManager();
     String? accessToken;
-    String requestURL =
-        parameters != null ? '$url/${parameters['id']}' : url;
+    String requestURL = parameters != null ? '$url/${parameters['id']}' : url;
     if (withToken) {
       accessToken = await storage.getAccessToken();
+      sid = (await storage.getSid())!;
+      cookies = (await storage.getCookies())!;
     }
     try {
       String bodyString =
@@ -91,11 +98,12 @@ class ApiClient {
     bool withToken = true,
   }) async {
     final storage = StorageManager();
-    String requestURL =
-        parameters != null ? '$url/${parameters['id']}' : url;
+    String requestURL = parameters != null ? '$url/${parameters['id']}' : url;
     String? accessToken;
     if (withToken) {
       accessToken = await storage.getAccessToken();
+      sid = (await storage.getSid())!;
+      cookies = (await storage.getCookies())!;
     }
     try {
       final response = await http.delete(
@@ -121,17 +129,23 @@ class ApiClient {
       'Sec-Fetch-Dest': 'empty',
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-origin',
-      'User-Agent': 'Your User Agent',
+      // 'User-Agent': 'Your User Agent', // Опционально, если требуется
       'X-Requested-With': 'XMLHttpRequest',
       'language': '1',
       'sec-ch-ua':
           '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
       'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': "Windows",
+      'sec-ch-ua-platform': "Windows"
     };
 
     if (withToken && accessToken != null) {
       headers['token'] = accessToken;
+      if (sid != '') {
+        headers['sid'] = sid;
+      }
+      if (cookies != '') {
+        headers['Cookie'] = cookies;
+      }
     }
 
     return headers;

@@ -113,24 +113,6 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              SizedBox(
-                                height: 40,
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.green),
-                                  ),
-                                  child: const Text(
-                                    'userType',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  onPressed: () async {
-                                    loginCubit.getPersonType();
-                                  },
-                                ),
-                              ),
                               // TextButton(
                               //   onPressed: () {
                               //     Navigator.push(
