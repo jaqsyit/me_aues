@@ -19,10 +19,16 @@ class TotalCubit extends Cubit<TotalState> {
     final response = await NetworkHelper().get(url: URL_JOURNAL_GET);
 
     if (response is Response) {
-      final decodedResponse = JsonDecoder().responseToMap(response);
-      final TotalData dataDecoded = TotalData.fromJson(decodedResponse);
+      try {
+        final List<Map<String, dynamic>> decodedResponse =
+            JsonDecoderSecond().responseToList(response);
+        final List<TotalData> dataDecoded =
+            decodedResponse.map((json) => TotalData.fromJson(json)).toList();
 
-      emit(TotalLoaded(data: dataDecoded));
+        emit(TotalLoaded(data: dataDecoded));
+      } catch (e) {
+        emit(TotalError(errMsg: e.toString()));
+      }
     } else if (response is String) {
       emit(TotalError(errMsg: response));
     } else {

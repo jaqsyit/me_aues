@@ -18,7 +18,7 @@ class TotalScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(
+          title: const Text(
             'Журнал',
             style: CustomTextStyles.s10w600cb,
           ),
@@ -34,11 +34,9 @@ class TotalScreen extends StatelessWidget {
               } else if (state is TotalLoaded) {
                 return Column(
                   children: [
-                    Expanded(
-                      child: Container(
-                          decoration: const BoxDecoration(),
-                          child: _buildTotalUI(state.data, context)),
-                    ),
+                    Container(
+                        decoration: const BoxDecoration(),
+                        child: _buildTotalUI(state.data, context)),
                   ],
                 );
               } else if (state is TotalError) {
@@ -58,24 +56,49 @@ class TotalScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTotalUI(TotalData totalData, BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.all(30),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
+  Widget _buildTotalUI(List<TotalData> totalData, BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      height: 400,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: totalData.length,
+        itemBuilder: (context, index) {
+          return Container(
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.all(10),
+            width: 160,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(10),
             ),
-          ],
-        ),
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    totalData[index].subjectName,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(totalData[index].centerMark),
+                  // Text(totalData[index].color),
+                  Text(totalData[index].totalMark),
+                  // Text(totalData[index].tutorList),
+                  Text(
+                      '${totalData[index].exams.first.name}: ${totalData[index].exams.first.mark}'),
+                  Text(
+                      '${totalData[index].exams.elementAt(2).name}: ${totalData[index].exams.elementAt(2).mark}'),
+                  Text(
+                      '${totalData[index].exams.elementAt(3).name}: ${totalData[index].exams.elementAt(3).mark}'),
+                  Text(
+                      '${totalData[index].exams.elementAt(4).name}: ${totalData[index].exams.elementAt(4).mark}'),
+                  Text(
+                      '${totalData[index].exams.elementAt(5).name}: ${totalData[index].exams.elementAt(5).mark}'),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

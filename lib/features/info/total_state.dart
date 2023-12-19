@@ -5,7 +5,7 @@ abstract class TotalState {}
 class TotalLoading extends TotalState {}
 
 class TotalLoaded extends TotalState {
-  final TotalData data;
+  final List<TotalData> data;
 
   TotalLoaded({required this.data});
 
