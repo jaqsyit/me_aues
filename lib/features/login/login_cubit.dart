@@ -13,6 +13,7 @@ import '../../widgets/loading_dialog.dart';
 import '../bottom/bottom_bar.dart';
 
 class LoginCubit extends Cubit<bool> {
+  StorageManager storage = StorageManager();
   final BuildContext context;
   LoginCubit({required this.context}) : super(false);
 
@@ -26,9 +27,10 @@ class LoginCubit extends Cubit<bool> {
     });
 
     if (response is Response) {
-      StorageManager storage = StorageManager();
       final decodedResponse = JsonDecoder().responseToMap(response);
       if (decodedResponse.containsKey('auth_token')) {
+        await storage.setLogin(login);
+        await storage.setPassword(password);
         if (response.headers.containsKey('set-cookie')) {
           var rawCookies = response.headers['set-cookie'];
           if (rawCookies != null) {
@@ -103,6 +105,15 @@ class LoginCubit extends Cubit<bool> {
         StorageManager storage = StorageManager();
         await storage.setPersonId(decodedResponse['personID'].toString());
       }
+    }
+  }
+
+  Future<void> checkAuth() async {
+    String? storageLogin = await storage.getLogin();
+    String? storagePassword = await storage.getPassword();
+
+    if (storageLogin is String && storagePassword is String) {
+      login(login: storageLogin, password: storagePassword);
     }
   }
 

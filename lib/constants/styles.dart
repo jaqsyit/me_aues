@@ -79,6 +79,34 @@ class CustomTextStyles {
     fontWeight: FontWeight.w400,
   );
 
+  static const TextStyle s20w400cr = TextStyle(
+    color: Colors.red,
+    fontSize: 20,
+    fontFamily: 'SF Pro Display',
+    fontWeight: FontWeight.w400,
+  );
+
+  static const TextStyle s20w400cg = TextStyle(
+    color: Colors.grey,
+    fontSize: 20,
+    fontFamily: 'SF Pro Display',
+    fontWeight: FontWeight.w400,
+  );
+
+  static const TextStyle s20w400cbl = TextStyle(
+    color: Colors.blue,
+    fontSize: 20,
+    fontFamily: 'SF Pro Display',
+    fontWeight: FontWeight.w400,
+  );
+
+  static const TextStyle s20w400cgrn = TextStyle(
+    color: Colors.green,
+    fontSize: 20,
+    fontFamily: 'SF Pro Display',
+    fontWeight: FontWeight.w400,
+  );
+
   static const TextStyle s20w600cb = TextStyle(
     color: Colors.black,
     fontSize: 20,
