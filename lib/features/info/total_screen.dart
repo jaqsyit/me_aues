@@ -75,11 +75,11 @@ class TotalScreen extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-            color: int.parse(totalData[index].exams[5].mark) != 0
+            color: double.parse(totalData[index].exams[5].mark) != 0
                 ? double.parse(totalData[index].centerMark) < 50
                     ? Colors.red
-                    : int.parse(totalData[index].centerMark) > 50 &&
-                            int.parse(totalData[index].centerMark) < 70
+                    : double.parse(totalData[index].centerMark) > 50 &&
+                            double.parse(totalData[index].centerMark) < 70
                         ? Colors.blue
                         : Colors.green
                 : Colors.black26,
